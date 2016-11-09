@@ -1,4 +1,4 @@
-import com.sun.org.apache.bcel.internal.generic.IINC;
+import datastructures.Triplet;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,7 +11,6 @@ import java.io.File;
 public class HelloWorld {
 
     public int count = 5;
-
 
     public static void main(String[] args) {
 
@@ -43,8 +42,6 @@ public class HelloWorld {
         // Concatenates commandLineArgOne to String "Hello World..." and then concatenates commandLineArgTwo
         System.out.println("Hello World. Count is " + commandLineArgOne + commandLineArgTwo);
         */
-
-
 
         String filePath = "C:\\Users\\burak\\IdeaProjects\\ImageDetection\\images\\besiktas.jpg";           // Put your filepath here
         File file = new File(filePath);

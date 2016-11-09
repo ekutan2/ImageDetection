@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * Created by ekutan on 11/3/16.
+ * Created by burak on 11/3/16.
  */
 public class HelloWorld {
 

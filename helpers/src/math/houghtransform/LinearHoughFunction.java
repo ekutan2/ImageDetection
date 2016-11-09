@@ -1,9 +1,11 @@
-package math;
+package math.houghtransform;
+
+import math.houghtransform.HoughFunction;
 
 /**
  * A function of the form r = x*cos(theta) + y*sin(theta), where x and y are passed in.
  *
- * Created by ekutan on 11/8/16.
+ * Created by burak on 11/8/16.
  */
 public class LinearHoughFunction extends HoughFunction {
 

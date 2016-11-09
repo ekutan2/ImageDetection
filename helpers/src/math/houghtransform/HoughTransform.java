@@ -1,12 +1,13 @@
-package math;
+package math.houghtransform;
 
 import datastructures.Pair;
 import datastructures.Pixel;
+import math.edgedetection.EdgeDetector;
 
 import java.util.*;
 
 /**
- * Created by ekutan on 11/8/16.
+ * Created by burak on 11/8/16.
  */
 public class HoughTransform {
 
@@ -15,7 +16,7 @@ public class HoughTransform {
 
     private double thetaIncrement;
     private int threshold;
-    private Map<Pair<Double>, List<Pixel>> houghCurvePointsToPixelMap;
+    private Map<Pair<Double>, List<Pixel>> houghCurvePointsToPixelMap;      // Map of (theta, r) points to all pixels that correspond to hough curves that intersect here
 
     /**
      *
@@ -39,7 +40,7 @@ public class HoughTransform {
     public Collection<Pixel> getPixelsAlongObject(Collection<Pixel> suspectPixels, Shape shape) {
         houghCurvePointsToPixelMap.clear();
 
-        //TODO test pixels
+        //TODO TEST LINEAR
         for (Pixel pixel : suspectPixels) {
             sampelHoughCurve(pixel, shape.valueOf());
         }
@@ -47,7 +48,9 @@ public class HoughTransform {
         Set<Pixel>  pixelsAlongObject = new TreeSet<>();
         for (Pair<Double> houghPoint : houghCurvePointsToPixelMap.keySet()) {
             List<Pixel> pixelsAtThisHoughPoint = houghCurvePointsToPixelMap.get(houghPoint);
-            if (pixelsAtThisHoughPoint.size() > threshold) {
+
+            int numIntersections = pixelsAtThisHoughPoint.size();
+            if (numIntersections > threshold) {
                 pixelsAlongObject.addAll(pixelsAtThisHoughPoint);
             }
         }
@@ -64,6 +67,9 @@ public class HoughTransform {
     private <T extends HoughFunction> void sampelHoughCurve(Pixel pixel, Class<T> clazz) {
         int xCoord = pixel.getCoordinates().getValue1();
         int yCoord = pixel.getCoordinates().getValue2();
+
+        // Use abstract class HoughFunction because it is general. This means that we can have any subtype, which will
+        // be determined at runtime. (you could also use an interface)
         HoughFunction houghFunction = HoughFunctionFactory.createHoughFunction(clazz, xCoord, yCoord);
 
         for (double theta = THETA_LOWER_BD; theta <= THETA_UPPER_BD; theta+= thetaIncrement) {

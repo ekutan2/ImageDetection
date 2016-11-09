@@ -1,7 +1,7 @@
 package datastructures;
 
 /**
- * Created by ekutan on 11/8/16.
+ * Created by burak on 11/8/16.
  */
 public class Pixel {
     private Pair<Integer> coordinates;

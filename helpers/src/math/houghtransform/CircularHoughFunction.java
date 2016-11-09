@@ -1,11 +1,12 @@
-package math;
+package math.houghtransform;
 
 /**
- * Created by ekutan on 11/8/16.
+ * Created by burak on 11/8/16.
  */
 public class CircularHoughFunction extends HoughFunction {
     public CircularHoughFunction(double x, double y) {
         super(x, y);
+        //TODO implement this
     }
 
     public double calculateR(double theta) {

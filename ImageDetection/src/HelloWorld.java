@@ -58,8 +58,8 @@ public class HelloWorld {
 
             rgbPixels[i] = new Triplet[image.getWidth()];
             for (int j = 0; j < image.getWidth(); j++) {
-                Color color = new Color(image.getRGB(j, i));
 
+                Color color = new Color(image.getRGB(j, i));
                 rgbPixels[i][j] = new Triplet<>(color.getRed(), color.getGreen(), color.getBlue());
                 System.out.println("RGB (r,g.b) value of pixel at coordinates (" + i + "," + j + ") is (" + color.getRed() + "," +
                                                                                                           + color.getGreen() + "," +

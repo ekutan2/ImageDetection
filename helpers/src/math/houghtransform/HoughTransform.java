@@ -1,8 +1,7 @@
 package math.houghtransform;
 
 import datastructures.Pair;
-import datastructures.Pixel;
-import math.edgedetection.EdgeDetector;
+import datastructures.RgbPixel;
 
 import java.util.*;
 
@@ -16,7 +15,7 @@ public class HoughTransform {
 
     private double thetaIncrement;
     private int threshold;
-    private Map<Pair<Double>, List<Pixel>> houghCurvePointsToPixelMap;      // Map of (theta, r) points to all pixels that correspond to hough curves that intersect here
+    private Map<Pair<Double>, List<RgbPixel>> houghCurvePointsToPixelMap;      // Map of (theta, r) points to all pixels that correspond to hough curves that intersect here
 
     /**
      *
@@ -37,17 +36,17 @@ public class HoughTransform {
      *
      * @param suspectPixels
      */
-    public Collection<Pixel> getPixelsAlongObject(Collection<Pixel> suspectPixels, Shape shape) {
+    public Collection<RgbPixel> getPixelsAlongObject(Collection<RgbPixel> suspectPixels, Shape shape) {
         houghCurvePointsToPixelMap.clear();
 
         //TODO TEST LINEAR
-        for (Pixel pixel : suspectPixels) {
+        for (RgbPixel pixel : suspectPixels) {
             sampelHoughCurve(pixel, shape.valueOf());
         }
 
-        Set<Pixel>  pixelsAlongObject = new TreeSet<>();
+        Set<RgbPixel>  pixelsAlongObject = new TreeSet<>();
         for (Pair<Double> houghPoint : houghCurvePointsToPixelMap.keySet()) {
-            List<Pixel> pixelsAtThisHoughPoint = houghCurvePointsToPixelMap.get(houghPoint);
+            List<RgbPixel> pixelsAtThisHoughPoint = houghCurvePointsToPixelMap.get(houghPoint);
 
             int numIntersections = pixelsAtThisHoughPoint.size();
             if (numIntersections > threshold) {
@@ -62,9 +61,9 @@ public class HoughTransform {
     /**
      * Converts a point to a hough curve and walks along the hough curve, adding the points visited to the Map<> above
      *
-     * @param pixel         A datastructures.Pixel object
+     * @param pixel         A datastructures.RgbPixel object
      */
-    private <T extends HoughFunction> void sampelHoughCurve(Pixel pixel, Class<T> clazz) {
+    private <T extends HoughFunction> void sampelHoughCurve(RgbPixel pixel, Class<T> clazz) {
         int xCoord = pixel.getCoordinates().getValue1();
         int yCoord = pixel.getCoordinates().getValue2();
 
@@ -79,7 +78,7 @@ public class HoughTransform {
             Pair<Double> houghPoint = new Pair<>(theta, r);
 
             // Update the list of pixels at this hough point
-            List<Pixel> pixelsAtThisHoughPoint = houghCurvePointsToPixelMap.get(houghPoint);
+            List<RgbPixel> pixelsAtThisHoughPoint = houghCurvePointsToPixelMap.get(houghPoint);
             if (pixelsAtThisHoughPoint == null) {
                 pixelsAtThisHoughPoint = new LinkedList<>();
                 houghCurvePointsToPixelMap.put(houghPoint, pixelsAtThisHoughPoint);

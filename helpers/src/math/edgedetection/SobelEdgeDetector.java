@@ -2,7 +2,7 @@ package math.edgedetection;
 
 import datastructures.Image;
 import datastructures.Pair;
-import datastructures.Pixel;
+import datastructures.RgbPixel;
 import math.convolution.Convolution;
 
 import java.util.HashMap;
@@ -47,20 +47,20 @@ public class SobelEdgeDetector extends EdgeDetector {
         Image horizontalSobelImage = horizontalSobelConvolution.convolute();
         Image verticalSobelImage = verticalSobelConvolution.convolute();
 
-        for (Pixel pixel : image.getPixels()) {
-            int xCoord = pixel.getXCoord();
-            int yCoord = pixel.getYCoord();
+        for (Integer xCoord: image.getPixels().keySet()) {
+            for (Integer yCoord : image.getPixels().get(xCoord).keySet()) {
 
-            Pixel horizontalSobelImagePixel = horizontalSobelImage.getPixelAt(xCoord, yCoord);
-            Pixel verticalSobelImagePixel = verticalSobelImage.getPixelAt(xCoord, yCoord);
+                RgbPixel horizontalSobelImagePixel = horizontalSobelImage.getPixelAt(xCoord, yCoord);
+                RgbPixel verticalSobelImagePixel = verticalSobelImage.getPixelAt(xCoord, yCoord);
 
-            int redMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getRed(), 2) + Math.pow(verticalSobelImagePixel.getRed(), 2));
-            int greenMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getGreen(), 2) + Math.pow(verticalSobelImagePixel.getGreen(), 2));
-            int blueMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getBlue(), 2) + Math.pow(verticalSobelImagePixel.getBlue(), 2));
+                int redMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getRed(), 2) + Math.pow(verticalSobelImagePixel.getRed(), 2));
+                int greenMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getGreen(), 2) + Math.pow(verticalSobelImagePixel.getGreen(), 2));
+                int blueMagnitudeAtPixel = (int) Math.sqrt(Math.pow(horizontalSobelImagePixel.getBlue(), 2) + Math.pow(verticalSobelImagePixel.getBlue(), 2));
 
-            modifiedImage.getPixelAt(xCoord, yCoord).setRed(redMagnitudeAtPixel);
-            modifiedImage.getPixelAt(xCoord, yCoord).setGreen(greenMagnitudeAtPixel);
-            modifiedImage.getPixelAt(xCoord, yCoord).setBlue(blueMagnitudeAtPixel);
+                modifiedImage.getPixelAt(xCoord, yCoord).setRed(redMagnitudeAtPixel);
+                modifiedImage.getPixelAt(xCoord, yCoord).setGreen(greenMagnitudeAtPixel);
+                modifiedImage.getPixelAt(xCoord, yCoord).setBlue(blueMagnitudeAtPixel);
+            }
         }
 
         return modifiedImage;

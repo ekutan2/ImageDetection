@@ -3,14 +3,14 @@ package datastructures;
 /**
  * Created by burak on 11/8/16.
  */
-public class Pixel {
-    private static final int MAX_RGB_VALUE = 255;
-    private static final int MIN_RGB_VALUE = 0;
+public class RgbPixel {
+    private static final int MAX_VALUE = 255;
+    private static final int MIN_VALUE = 0;
 
     private Pair<Integer> coordinates;
     private Triplet<Integer> rgbPixel;
 
-    public Pixel(Pair<Integer> coordinates, Triplet<Integer> rgbPixel) {
+    public RgbPixel(Pair<Integer> coordinates, Triplet<Integer> rgbPixel) {
         this.coordinates = coordinates;
         this.rgbPixel = rgbPixel;
     }
@@ -48,20 +48,20 @@ public class Pixel {
     }
 
     public void setRed(int newRedVal) {
-        newRedVal = Math.min(newRedVal, MAX_RGB_VALUE);
-        newRedVal = Math.max(newRedVal, MIN_RGB_VALUE);
+        newRedVal = Math.min(newRedVal, MAX_VALUE);
+        newRedVal = Math.max(newRedVal, MIN_VALUE);
         rgbPixel.setValue1(newRedVal);
     }
 
     public void setGreen(int newGreenVal) {
-        newGreenVal = Math.min(newGreenVal, MAX_RGB_VALUE);
-        newGreenVal = Math.max(newGreenVal, MIN_RGB_VALUE);
+        newGreenVal = Math.min(newGreenVal, MAX_VALUE);
+        newGreenVal = Math.max(newGreenVal, MIN_VALUE);
         rgbPixel.setValue2(newGreenVal);
     }
 
     public void setBlue(int newBlueVal) {
-        newBlueVal = Math.max(newBlueVal, MAX_RGB_VALUE);
-        newBlueVal = Math.min(newBlueVal, MIN_RGB_VALUE);
+        newBlueVal = Math.min(newBlueVal, MAX_VALUE);
+        newBlueVal = Math.max(newBlueVal, MIN_VALUE);
         rgbPixel.setValue3(newBlueVal);
     }
 
@@ -77,15 +77,22 @@ public class Pixel {
         return rgbPixel.getValue3();
     }
 
-    public void applyThresholdPixel(Pixel thresholdPixel) {
+    public void applyThresholdPixel(RgbPixel thresholdPixel) {
         if ((thresholdPixel.getRed() > getRed()) && (thresholdPixel.getGreen() > getGreen()) && (thresholdPixel.getBlue() > getBlue())) {
-            setRed(MIN_RGB_VALUE);
-            setGreen(MIN_RGB_VALUE);
-            setBlue(MIN_RGB_VALUE);
+            setRed(MIN_VALUE);
+            setGreen(MIN_VALUE);
+            setBlue(MIN_VALUE);
         } else {
-            setRed(MAX_RGB_VALUE);
-            setGreen(MAX_RGB_VALUE);
-            setBlue(MAX_RGB_VALUE);
+            setRed(MAX_VALUE);
+            setGreen(MAX_VALUE);
+            setBlue(MAX_VALUE);
         }
+    }
+
+    public void toGreyScale() {
+        int averagePixelColor = (getRed() + getGreen() + getBlue())/3;
+        setRed(averagePixelColor);
+        setGreen(averagePixelColor);
+        setBlue(averagePixelColor);
     }
 }

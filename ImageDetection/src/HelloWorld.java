@@ -55,6 +55,7 @@ public class HelloWorld {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         // Getting pixel color by position x=100 and y=40
         Triplet<Integer>[][] rgbPixels = new Triplet[image.getHeight()][];
         Map<Integer, Map<Integer, RgbPixel>> pixels = new HashMap<>();
@@ -66,11 +67,6 @@ public class HelloWorld {
             for (int y = 0; y < image.getHeight(); y++) {
 
                 Color color = new Color(image.getRGB(x, y));
-                //rgbPixels[x][y] = new Triplet<>(color.getRed(), color.getGreen(), color.getBlue());
-                /*System.out.println("RGB (r,g.b) value of pixel at coordinates (" + i + "," + j + ") is (" + color.getRed() + "," +
-                                                                                                          + color.getGreen() + "," +
-                                                                                                          + color.getBlue()
-                                                                                                             + "). Adding pixel to data structures.");*/
                 Pair<Integer> coordinates = new Pair<>(x, y);
                 Triplet<Integer> rgbContent = new Triplet<>(color.getRed(), color.getGreen(), color.getBlue());
                 yCoordToPixels.put(y, new RgbPixel(coordinates, rgbContent));

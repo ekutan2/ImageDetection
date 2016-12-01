@@ -4,8 +4,14 @@
     <bookmark url="file://$PROJECT_DIR$/helpers/src/math/convolution/Convolution.java" line="60" mnemonic="8" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3936811b-ee93-4a66-903b-7f3f4601d45b" name="Default" comment="Added test code HoughTransform.java in test module">
+    <list default="true" id="3936811b-ee93-4a66-903b-7f3f4601d45b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/output-pentagon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/pentagon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ij.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/ij.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/src/Hough_Circles.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/libs.iml" afterPath="$PROJECT_DIR$/libs/libs.iml" />
     </list>
     <ignored path="ImageDetection.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,7 +54,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HoughTransform.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HoughTransform.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="227">
@@ -57,6 +63,20 @@
                 <element signature="imports" expanded="true" />
                 <element signature="e#1855#1856#0" expanded="true" />
                 <element signature="e#1923#1924#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Hough_Circles.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/src/Hough_Circles.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#11381#11382#0" expanded="true" />
+                <element signature="e#11418#11419#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -175,6 +195,7 @@
         <option value="$PROJECT_DIR$/helpers/src/datastructures/RgbPixel.java" />
         <option value="$PROJECT_DIR$/ImageDetection/src/HelloWorld.java" />
         <option value="$PROJECT_DIR$/test/src/HoughTransform.java" />
+        <option value="$PROJECT_DIR$/test/src/Hough_Circles.java" />
       </list>
     </option>
   </component>
@@ -349,10 +370,13 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/ij.jar!/" />
     <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/libs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\burak\IdeaProjects\ImageDetection\images" />
     </key>
@@ -689,7 +713,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480557562591</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Adding image files">
+      <created>1480557590388</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1480557590388</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -766,7 +797,8 @@
     <MESSAGE value="Added more to Sobel line detector" />
     <MESSAGE value="Added greyscale conversion; axes consistent; but Sobel Detector broken" />
     <MESSAGE value="Added test code HoughTransform.java in test module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added test code HoughTransform.java in test module" />
+    <MESSAGE value="Adding image files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding image files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -787,16 +819,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/helpers/src/math/edgedetection/SobelEdgeDetector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/src/TestSobel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -1151,6 +1173,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/src/Hough_Circles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#11381#11382#0" expanded="true" />
+            <element signature="e#11418#11419#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -1203,7 +1237,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>test</last-edited>
+          <last-edited>libs</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

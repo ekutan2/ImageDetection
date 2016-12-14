@@ -13,7 +13,7 @@ public class HoughTransform
         int height = inputData.height;
         //int maxRadius = (int)Math.ceil(Math.hypot(width, height));
         int maxRadius = Math.min(width, height);
-        int halfRAxisSize = rAxisSize >>> 1;
+        //int halfRAxisSize = rAxisSize >>> 1;
         CircleArrayData outputCircleData = new CircleArrayData(width, height, maxRadius);
 
 
@@ -23,34 +23,34 @@ public class HoughTransform
         double[] sinTable = new double[thetaAxisSize];
         double[] cosTable = new double[thetaAxisSize];
         for (int theta = thetaAxisSize - 1; theta >= 0; theta--) {
-            double thetaRadians = theta * Math.PI / thetaAxisSize;
+            double thetaRadians = theta*2*Math.PI / thetaAxisSize;
             sinTable[theta] = Math.sin(thetaRadians);
             cosTable[theta] = Math.cos(thetaRadians);
         }
 
         for (int y = height - 1; y >= 0; y--) {
             for (int x = width - 1; x >= 0; x--) {
-                if (inputData.contrast(x, y, minContrast)) {
 
+                if (inputData.contrast(x, y, minContrast)) {
                     // If (x,y) has an adjacent pixel exceeding the contrast, calculate hough curve
                     for (int theta = thetaAxisSize - 1; theta >= 0; theta--) {
                         //double radius = cosTable[theta] * x + sinTable[theta] * y;
                         //int rScaled = (int)Math.round(radius * halfRAxisSize / maxRadius) + halfRAxisSize;
-
                         // Do hough circles
-                        for (int r = 0; r < maxRadius; r++) {
-
-                            double a = x - r*cosTable[theta];
-                            double b = y - r*sinTable[theta];
+                        for (int r = maxRadius - 1; r >= 10; r--) {
+                            // Get edge (a,b)
+                            double a = x - r * cosTable[theta];
+                            double b = y - r * sinTable[theta];
                             int aScaled = (int) a;
                             int bScaled = (int) b;
                             if (aScaled >= width || aScaled < 0 || bScaled >= height || bScaled < 0) {
                                 continue;
                             }
-                            /*String msg = "Accumulating to (" + aScaled + "," + bScaled + "," + r + ")";
-                            /*String remainingMsg = "On (x,y,theta,r) (" + x + "," + y + "," + theta + "," + r  + ") of max ("
-                                    + width + "," + height + "," + thetaAxisSize  + "," + maxRadius  + "): ";
-                            System.out.println(msg);*/
+
+                        /*String msg = "Accumulating to (" + aScaled + "," + bScaled + "," + r + ")";
+                        /*String remainingMsg = "On (x,y,theta,r) (" + x + "," + y + "," + theta + "," + r  + ") of max ("
+                             + width + "," + height + "," + thetaAxisSize  + "," + maxRadius  + "): ";
+                        System.out.println(msg);*/
                             //System.out.println("Rounded " + a + " to " + aScaled + " and " + b + " to " + bScaled);
                             //TODO determine how much rounding is going on. This could be a big deal
                             outputCircleData.accumulate(aScaled, bScaled, r, 1);
@@ -60,7 +60,19 @@ public class HoughTransform
                     }
                 }
             }
+            System.out.println(y);
         }
+
+        /* (100, 90, 50)
+        for (int x = 97; x < 103; x ++) {
+            for (int y = 87; y < 93; y++) {
+                for (int r = 47; r < 53; r++) {
+                    int count = outputCircleData.get(x, y, r);
+                    System.out.println("Found " + count + " at (" + x + "," + y + "," + r + ")");
+                }
+            }
+        }*/
+
         return outputCircleData;
     }
 
@@ -165,7 +177,7 @@ public class HoughTransform
                     continue;
                 int contrast = Math.abs(get(newx, newy) - centerValue);
                 if (contrast >= minContrast) {
-                    System.out.println("Detected contrast of " + contrast + " at (" + x + "," + y + ")");
+                    //System.out.println("Detected contrast of " + contrast + " at (" + x + "," + y + ")");
                     return true;
                 }
             }
@@ -222,9 +234,9 @@ public class HoughTransform
 
         fileName = "images/TestImage.jpg";
         outputFileName = "images/output-pentagon.png";
-        thetaAxisSize = 640;
+        thetaAxisSize = 360;
         rAxisSize = 480;
-        inputMinContrast = 50;
+        inputMinContrast = 150;
 
         ArrayData inputData = getArrayDataFromImage(fileName);
         int minContrast = (args.length >= 4) ? 64 : inputMinContrast;

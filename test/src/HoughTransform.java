@@ -51,7 +51,7 @@ public class HoughTransform
                             /*String remainingMsg = "On (x,y,theta,r) (" + x + "," + y + "," + theta + "," + r  + ") of max ("
                                     + width + "," + height + "," + thetaAxisSize  + "," + maxRadius  + "): ";
                             System.out.println(msg);*/
-                            System.out.println("Rounded " + a + " to " + aScaled + " and " + b + " to " + bScaled);
+                            //System.out.println("Rounded " + a + " to " + aScaled + " and " + b + " to " + bScaled);
                             //TODO determine how much rounding is going on. This could be a big deal
                             outputCircleData.accumulate(aScaled, bScaled, r, 1);
                         }
@@ -60,7 +60,6 @@ public class HoughTransform
                     }
                 }
             }
-            System.out.println(y);
         }
         return outputCircleData;
     }
@@ -165,8 +164,10 @@ public class HoughTransform
                 if ((newx < 0) || (newx >= width) || (newy < 0) || (newy >= height))
                     continue;
                 int contrast = Math.abs(get(newx, newy) - centerValue);
-                if (contrast >= minContrast)
+                if (contrast >= minContrast) {
+                    System.out.println("Detected contrast of " + contrast + " at (" + x + "," + y + ")");
                     return true;
+                }
             }
             return false;
         }
@@ -223,7 +224,7 @@ public class HoughTransform
         outputFileName = "images/output-pentagon.png";
         thetaAxisSize = 640;
         rAxisSize = 480;
-        inputMinContrast = 100;
+        inputMinContrast = 50;
 
         ArrayData inputData = getArrayDataFromImage(fileName);
         int minContrast = (args.length >= 4) ? 64 : inputMinContrast;

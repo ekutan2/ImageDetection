@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3936811b-ee93-4a66-903b-7f3f4601d45b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/src/SobelEdgeDetection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/output-pentagon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/pentagon.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/src/HoughTransform.java" afterPath="$PROJECT_DIR$/test/src/HoughTransform.java" />
     </list>
@@ -42,7 +42,7 @@
       <file leaf-file-name="HelloWorld.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ImageDetection/src/HelloWorld.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
+            <state relative-caret-position="234">
               <caret line="68" column="60" selection-start-line="68" selection-start-column="60" selection-end-line="68" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -51,31 +51,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HoughTransform.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HoughTransform.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="220" column="65" selection-start-line="220" selection-start-column="65" selection-end-line="220" selection-end-column="65" />
+            <state relative-caret-position="646">
+              <caret line="385" column="43" selection-start-line="385" selection-start-column="43" selection-end-line="385" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4200#4201#0" expanded="true" />
-                <element signature="e#4235#4236#0" expanded="true" />
-                <element signature="e#4267#4268#0" expanded="true" />
-                <element signature="e#4302#4303#0" expanded="true" />
-                <element signature="e#4334#4335#0" expanded="true" />
-                <element signature="e#4369#4370#0" expanded="true" />
-                <element signature="e#4574#4575#0" expanded="true" />
-                <element signature="e#4642#4643#0" expanded="true" />
+                <element signature="e#4258#4259#0" expanded="true" />
+                <element signature="e#4293#4294#0" expanded="true" />
+                <element signature="e#4325#4326#0" expanded="true" />
+                <element signature="e#4360#4361#0" expanded="true" />
+                <element signature="e#4392#4393#0" expanded="true" />
+                <element signature="e#4427#4428#0" expanded="true" />
+                <element signature="e#4632#4633#0" expanded="true" />
+                <element signature="e#4700#4701#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SobelEdgeDetection.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SobelEdgeDetection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/src/SobelEdgeDetection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="38" column="81" selection-start-line="38" selection-start-column="81" selection-end-line="38" selection-end-column="81" />
+            <state relative-caret-position="468">
+              <caret line="38" column="81" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -149,8 +149,8 @@
         <option value="$PROJECT_DIR$/helpers/src/datastructures/RgbPixel.java" />
         <option value="$PROJECT_DIR$/ImageDetection/src/HelloWorld.java" />
         <option value="$PROJECT_DIR$/test/src/Hough_Circles.java" />
-        <option value="$PROJECT_DIR$/test/src/HoughTransform.java" />
         <option value="$PROJECT_DIR$/test/src/SobelEdgeDetection.java" />
+        <option value="$PROJECT_DIR$/test/src/HoughTransform.java" />
       </list>
     </option>
   </component>
@@ -645,8 +645,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.SobelEdgeDetection" />
-        <item index="1" class="java.lang.String" itemvalue="Application.HoughTransform" />
+        <item index="0" class="java.lang.String" itemvalue="Application.HoughTransform" />
+        <item index="1" class="java.lang.String" itemvalue="Application.SobelEdgeDetection" />
         <item index="2" class="java.lang.String" itemvalue="Application.HelloWorld" />
       </list>
     </recent_temporary>
@@ -749,7 +749,21 @@
       <option name="project" value="LOCAL" />
       <updated>1481776027992</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added SobelEdgeDetection to apply sobel filter to image">
+      <created>1481778818663</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1481778818663</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Adding coin-on-desksmall.jpeg">
+      <created>1481778854919</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1481778854919</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -832,7 +846,9 @@
     <MESSAGE value="Trying to determine where the code is getting thrown off" />
     <MESSAGE value="I think I figured it out. Needed to prevent radius from getting close to 0. Now searches for radius to a min of 10" />
     <MESSAGE value="Highlights circle in red" />
-    <option name="LAST_COMMIT_MESSAGE" value="Highlights circle in red" />
+    <MESSAGE value="Added SobelEdgeDetection to apply sobel filter to image" />
+    <MESSAGE value="Adding coin-on-desksmall.jpeg" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding coin-on-desksmall.jpeg" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -844,7 +860,7 @@
           <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="84" />
+      <option name="time" value="85" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -853,13 +869,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/helpers/src/math/houghtransform/CircularHoughFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/src/TestLinearDetection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1116,6 +1125,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1131,6 +1143,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="579">
           <caret line="61" column="62" selection-start-line="61" selection-start-column="62" selection-end-line="61" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1138,6 +1151,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="1238" column="17" selection-start-line="1238" selection-start-column="17" selection-end-line="1238" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1149,16 +1163,6 @@
     <entry file="file://$PROJECT_DIR$/images/TestImage.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ImageDetection/src/HelloWorld.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="68" column="60" selection-start-line="68" selection-start-column="60" selection-end-line="68" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/src/Hough_Circles.java">
@@ -1177,30 +1181,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
+    <entry file="file://$PROJECT_DIR$/ImageDetection/src/HelloWorld.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="220" column="65" selection-start-line="220" selection-start-column="65" selection-end-line="220" selection-end-column="65" />
+        <state relative-caret-position="234">
+          <caret line="68" column="60" selection-start-line="68" selection-start-column="60" selection-end-line="68" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4200#4201#0" expanded="true" />
-            <element signature="e#4235#4236#0" expanded="true" />
-            <element signature="e#4267#4268#0" expanded="true" />
-            <element signature="e#4302#4303#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#4369#4370#0" expanded="true" />
-            <element signature="e#4574#4575#0" expanded="true" />
-            <element signature="e#4642#4643#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/src/SobelEdgeDetection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="38" column="81" selection-start-line="38" selection-start-column="81" selection-end-line="38" selection-end-column="81" />
+        <state relative-caret-position="468">
+          <caret line="38" column="81" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="81" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///opt/Java/jdk1.7.0_79/src.zip!/javax/imageio/ImageIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="1300" column="0" selection-start-line="1300" selection-start-column="0" selection-end-line="1300" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="385" column="43" selection-start-line="385" selection-start-column="43" selection-end-line="385" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4258#4259#0" expanded="true" />
+            <element signature="e#4293#4294#0" expanded="true" />
+            <element signature="e#4325#4326#0" expanded="true" />
+            <element signature="e#4360#4361#0" expanded="true" />
+            <element signature="e#4392#4393#0" expanded="true" />
+            <element signature="e#4427#4428#0" expanded="true" />
+            <element signature="e#4632#4633#0" expanded="true" />
+            <element signature="e#4700#4701#0" expanded="true" />
           </folding>
         </state>
       </provider>

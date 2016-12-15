@@ -1,92 +1,71 @@
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
-
+import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InterruptedIOException;
+import java.util.HashSet;
+import java.util.Set;
 import javax.imageio.*;
 
 public class HoughTransform
 {
-    public static CircleArrayData houghTransform(ArrayData inputData, int thetaAxisSize, int rAxisSize, int minContrast) {
+    public static HoughData houghTransform(CartesianData inputData, int thetaIncrements, int minContrast) {
         int width = inputData.width;
         int height = inputData.height;
-        //int maxRadius = (int)Math.ceil(Math.hypot(width, height));
         int maxRadius = Math.min(width, height);
-        //int halfRAxisSize = rAxisSize >>> 1;
-        CircleArrayData outputCircleData = new CircleArrayData(width, height, maxRadius);
+        HoughData outputCircleData = new HoughData(width, height, maxRadius);
 
-
-        //ArrayData outputData = new ArrayData(thetaAxisSize, rAxisSize);
         // x output ranges from 0 to pi, partition into theaAxisSize increments
         // y output ranges from -maxRadius to maxRadius
-        double[] sinTable = new double[thetaAxisSize];
-        double[] cosTable = new double[thetaAxisSize];
-        for (int theta = thetaAxisSize - 1; theta >= 0; theta--) {
-            double thetaRadians = theta*2*Math.PI / thetaAxisSize;
+        double[] sinTable = new double[thetaIncrements];
+        double[] cosTable = new double[thetaIncrements];
+        for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
+            double thetaRadians = theta*2*Math.PI / thetaIncrements;
             sinTable[theta] = Math.sin(thetaRadians);
             cosTable[theta] = Math.cos(thetaRadians);
         }
 
         for (int y = height - 1; y >= 0; y--) {
             for (int x = width - 1; x >= 0; x--) {
-
                 if (inputData.contrast(x, y, minContrast)) {
                     // If (x,y) has an adjacent pixel exceeding the contrast, calculate hough curve
-                    for (int theta = thetaAxisSize - 1; theta >= 0; theta--) {
-                        //double radius = cosTable[theta] * x + sinTable[theta] * y;
-                        //int rScaled = (int)Math.round(radius * halfRAxisSize / maxRadius) + halfRAxisSize;
-                        // Do hough circles
+                    for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
                         for (int r = maxRadius - 1; r >= 10; r--) {
-                            // Get edge (a,b)
-                            double a = x - r * cosTable[theta];
-                            double b = y - r * sinTable[theta];
-                            int aScaled = (int) a;
+                            double a = x - r * cosTable[theta];     // X coordinate of potential center
+                            double b = y - r * sinTable[theta];     // Y coordinate of potential center
+                            int aScaled = (int) a;                  // Discretize
                             int bScaled = (int) b;
                             if (aScaled >= width || aScaled < 0 || bScaled >= height || bScaled < 0) {
                                 continue;
                             }
-
-                        /*String msg = "Accumulating to (" + aScaled + "," + bScaled + "," + r + ")";
-                        /*String remainingMsg = "On (x,y,theta,r) (" + x + "," + y + "," + theta + "," + r  + ") of max ("
-                             + width + "," + height + "," + thetaAxisSize  + "," + maxRadius  + "): ";
-                        System.out.println(msg);*/
-                            //System.out.println("Rounded " + a + " to " + aScaled + " and " + b + " to " + bScaled);
-                            //TODO determine how much rounding is going on. This could be a big deal
-                            outputCircleData.accumulate(aScaled, bScaled, r, 1);
+                            outputCircleData.accumulate(aScaled, bScaled, r, 1);    // Vote
                         }
-                        // Accumulate by adding 1 to this accumulator bin
-                        //outputData.accumulate(theta, rScaled, 1);
                     }
                 }
             }
             System.out.println(y);
         }
-
-        /* (100, 90, 50)
-        for (int x = 97; x < 103; x ++) {
-            for (int y = 87; y < 93; y++) {
-                for (int r = 47; r < 53; r++) {
-                    int count = outputCircleData.get(x, y, r);
-                    System.out.println("Found " + count + " at (" + x + "," + y + "," + r + ")");
-                }
-            }
-        }*/
-
         return outputCircleData;
     }
 
-    public static class CircleArrayData {
+    /**
+     * Represents data in the hough-transform parameter space
+     */
+    public static class HoughData {
         public final int[][][] dataArray;
         public final int width;
         public final int height;
         public final int depth;
 
-        public CircleArrayData(int width, int height, int depth) {
+        private final int UNSET_HOUGH_PARAM = -100;
+        private int maxA = UNSET_HOUGH_PARAM;
+        private int maxB = UNSET_HOUGH_PARAM;
+        private int maxR = UNSET_HOUGH_PARAM;
+
+        public HoughData(int width, int height, int depth) {
             this(new int[width][height][depth], width, height, depth);
         }
 
-        public CircleArrayData(int[][][] dataArray, int width, int height, int depth) {
+        public HoughData(int[][][] dataArray, int width, int height, int depth) {
             this.dataArray = dataArray;
             this.width = width;
             this.height = height;
@@ -105,7 +84,7 @@ public class HoughTransform
             set(x, y, z, get(x, y, z) + delta);
         }
 
-        public int getMax() {
+        public int calcMax() {
             int max = dataArray[0][0][0];
             int maxX = 0;
             int maxY = 0;
@@ -124,21 +103,37 @@ public class HoughTransform
                 }
             }
 
+            this.maxA = maxX;
+            this.maxB = maxY;
+            this.maxR = maxZ;
+
             System.out.println("Found max of " + max + " at (" + maxX + "," + maxY + "," + maxZ + ")");
             return max;
         }
+
+        public int getMaxA() {
+            return maxA;
+        }
+
+        public int getMaxB() {
+            return maxB;
+        }
+
+        public int getMaxR() {
+            return maxR;
+        }
     }
 
-    public static class ArrayData {
+    public static class CartesianData {
         public final int[] dataArray;
         public final int width;
         public final int height;
 
-        public ArrayData(int width, int height) {
+        public CartesianData(int width, int height) {
             this(new int[width * height], width, height);
         }
 
-        public ArrayData(int[] dataArray, int width, int height) {
+        public CartesianData(int[] dataArray, int width, int height) {
             this.dataArray = dataArray;
             this.width = width;
             this.height = height;
@@ -166,21 +161,27 @@ public class HoughTransform
          */
         public boolean contrast(int x, int y, int minContrast) {
             int centerValue = get(x, y);
+            Set<Integer> mask = new HashSet<>();
+            mask.add(-1);
+            mask.add(0);
+            mask.add(1);
 
-            // TODO--really stupid way of checking contrast in all adjacent cells. Change this to readable form
-            for (int i = 8; i >= 0; i--) {
-                if (i == 4)
-                    continue;
-                int newx = x + (i % 3) - 1;
-                int newy = y + (i / 3) - 1;
-                if ((newx < 0) || (newx >= width) || (newy < 0) || (newy >= height))
-                    continue;
-                int contrast = Math.abs(get(newx, newy) - centerValue);
-                if (contrast >= minContrast) {
-                    //System.out.println("Detected contrast of " + contrast + " at (" + x + "," + y + ")");
-                    return true;
+            for (int xOffset : mask) {
+                for (int yOffset : mask) {
+                    int newX = x + xOffset;
+                    int newY = y + yOffset;
+                    if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
+                        continue;
+                    }
+
+                    int contrast = Math.abs(get(newX, newY) - centerValue);
+                    if (contrast >= minContrast) {
+                        return  true;
+                    }
                 }
             }
+
+            // TODO--refactor, or use sobel detection
             return false;
         }
 
@@ -193,12 +194,11 @@ public class HoughTransform
         }
     }
 
-    public static ArrayData getArrayDataFromImage(String filename) throws IOException {
-        BufferedImage inputImage = ImageIO.read(new File(filename));
+    public static CartesianData getArrayDataFromImage(BufferedImage inputImage) throws IOException {
         int width = inputImage.getWidth();
         int height = inputImage.getHeight();
         int[] rgbData = inputImage.getRGB(0, 0, width, height, null, 0, width);
-        ArrayData arrayData = new ArrayData(width, height);
+        CartesianData arrayData = new CartesianData(width, height);
         // Flip y axis when reading image
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -210,7 +210,9 @@ public class HoughTransform
         return arrayData;
     }
 
-    public static void writeOutputImage(String filename, ArrayData arrayData) throws IOException {
+    /*
+    // Figure this out
+    public static void writeOutputImage(String filename, CartesianData arrayData) throws IOException {
         int max = arrayData.getMax();
         BufferedImage outputImage = new BufferedImage(arrayData.width, arrayData.height, BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < arrayData.height; y++) {
@@ -221,28 +223,80 @@ public class HoughTransform
         }
         ImageIO.write(outputImage, "PNG", new File(filename));
         return;
+    }*/
+
+    public static void highLightCircles(HoughData circleArrayData) {
+
+    }
+
+    public static void writeOutputImage(String fileName, BufferedImage originalImage, HoughData circleArrayData, int thetaIncrements) throws IOException {
+        circleArrayData.calcMax();
+        int maxA = circleArrayData.getMaxA();
+        int maxB = circleArrayData.getMaxB();
+        int maxR = circleArrayData.getMaxR();
+
+        Color outlineColor = Color.red;
+        int red = outlineColor.getRed();
+        int green = outlineColor.getGreen();
+        int blue = outlineColor.getBlue();
+        int col = (red << 16) | (green << 8) | blue;     // how RGB pixels are represented as one int: http://www.javamex.com/tutorials/graphics/bufferedimage_setrgb.shtml
+
+
+        ColorModel cm = originalImage.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = originalImage.copyData(null);
+        BufferedImage outputImage =  new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+
+        int width = circleArrayData.width;
+        int height = circleArrayData.height;
+        int maxRadius = Math.min(width, height);
+
+        double[] sinTable = new double[thetaIncrements];
+        double[] cosTable = new double[thetaIncrements];
+        for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
+            double thetaRadians = theta*2*Math.PI / thetaIncrements;
+            sinTable[theta] = Math.sin(thetaRadians);
+            cosTable[theta] = Math.cos(thetaRadians);
+        }
+
+        for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
+            double x = maxA + maxR * cosTable[theta];     // X coordinate of potential center
+            double y = (height - maxB) + maxR * sinTable[theta];     // Y coordinate of potential center
+            int xScaled = (int) x;                        // Discretize
+            int yScaled = (int) y;
+            if (xScaled >= width || xScaled < 0 || yScaled >= height || yScaled < 0) {
+                continue;
+            }
+            outputImage.setRGB(xScaled, yScaled,  col);
+        }
+
+        ImageIO.write(outputImage, "JPG", new File(fileName));
     }
 
     public static void main(String[] args) throws IOException {
 
         // HoughTransform pentagon.png JavaHoughTransform.png 640 480 100
-        String fileName;// = args[0];
-        String outputFileName;// = args[1];
         int thetaAxisSize; //= Integer.parseInt(args[2]);
-        int rAxisSize; // = Integer.parseInt(args[3]);
         int inputMinContrast; // = Integer.parseInt(args[4]);
 
-        fileName = "images/TestImage.jpg";
-        outputFileName = "images/output-pentagon.png";
-        thetaAxisSize = 360;
-        rAxisSize = 480;
-        inputMinContrast = 150;
+        // Get input and output filename
+        String filePath = "images";
+        String fileName = "TestImage.jpg";
+        String[] fileNameParts = fileName.split("\\.");
+        String fileNameWithoutExt = fileNameParts[0];
+        String fileExt = fileNameParts[1];
+        String outputFileName = fileNameWithoutExt + ".output." + fileExt;
 
-        ArrayData inputData = getArrayDataFromImage(fileName);
+        // Determine axes sizes
+        thetaAxisSize = 360;
+        inputMinContrast = 150;
         int minContrast = (args.length >= 4) ? 64 : inputMinContrast;
-        CircleArrayData outputData = houghTransform(inputData, thetaAxisSize, rAxisSize, minContrast);
-        outputData.getMax();
-        //writeOutputImage(outputFileName, outputData);
-        return;
+
+        // Read data, compute transform, then write output data
+        BufferedImage inputImage = ImageIO.read(new File(filePath + "/" + fileName));
+        CartesianData inputData = getArrayDataFromImage(inputImage);
+        HoughData outputData = houghTransform(inputData, thetaAxisSize, minContrast);
+        //highLightCircles(outputData);
+        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
     }
 }

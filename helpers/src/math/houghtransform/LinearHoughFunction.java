@@ -1,7 +1,5 @@
 package math.houghtransform;
 
-import math.houghtransform.HoughFunction;
-
 /**
  * A function of the form r = x*cos(theta) + y*sin(theta), where x and y are passed in.
  *

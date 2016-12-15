@@ -181,7 +181,6 @@ public class HoughTransform
                 }
             }
 
-            // TODO--refactor, or use sobel detection
             return false;
         }
 
@@ -203,32 +202,33 @@ public class HoughTransform
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int rgbValue = rgbData[y * width + x];
-                rgbValue = (int)(((rgbValue & 0xFF0000) >>> 16) * 0.30 + ((rgbValue & 0xFF00) >>> 8) * 0.59 + (rgbValue & 0xFF) * 0.11);
+                rgbValue = (int)(((rgbValue & 0xFF) >> 16) + ((rgbValue & 0xFF) >> 8) + (rgbValue & 0xFF));
                 arrayData.set(x, height - 1 - y, rgbValue);
             }
         }
         return arrayData;
     }
 
-    /*
-    // Figure this out
-    public static void writeOutputImage(String filename, CartesianData arrayData) throws IOException {
-        int max = arrayData.getMax();
-        BufferedImage outputImage = new BufferedImage(arrayData.width, arrayData.height, BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0; y < arrayData.height; y++) {
-            for (int x = 0; x < arrayData.width; x++) {
-                int n = Math.min((int)Math.round(arrayData.get(x, y) * 255.0 / max), 255);
-                outputImage.setRGB(x, arrayData.height - 1 - y, (n << 16) | (n << 8) | 0x90 | -0x01000000);
-            }
-        }
-        ImageIO.write(outputImage, "PNG", new File(filename));
-        return;
-    }*/
-
     public static void highLightCircles(HoughData circleArrayData) {
 
     }
 
+    public static void writeOutputImage(String filename, CartesianData arrayData) throws IOException {
+        BufferedImage outputImage = new BufferedImage(arrayData.width, arrayData.height, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < arrayData.height; y++) {
+            for (int x = 0; x < arrayData.width; x++) {
+                int n = arrayData.get(x, y);
+                outputImage.setRGB(x, arrayData.height - 1 - y, n);
+            }
+        }
+        ImageIO.write(outputImage, "JPG", new File(filename));
+        return;
+    }
+
+
+    /**
+     *
+     */
     public static void writeOutputImage(String fileName, BufferedImage originalImage, HoughData circleArrayData, int thetaIncrements) throws IOException {
         circleArrayData.calcMax();
         int maxA = circleArrayData.getMaxA();
@@ -240,7 +240,6 @@ public class HoughTransform
         int green = outlineColor.getGreen();
         int blue = outlineColor.getBlue();
         int col = (red << 16) | (green << 8) | blue;     // how RGB pixels are represented as one int: http://www.javamex.com/tutorials/graphics/bufferedimage_setrgb.shtml
-
 
         ColorModel cm = originalImage.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -259,10 +258,11 @@ public class HoughTransform
             cosTable[theta] = Math.cos(thetaRadians);
         }
 
+        // Color circle
         for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
-            double x = maxA + maxR * cosTable[theta];     // X coordinate of potential center
-            double y = (height - maxB) + maxR * sinTable[theta];     // Y coordinate of potential center
-            int xScaled = (int) x;                        // Discretize
+            double x = maxA + maxR * cosTable[theta];                   // X coordinate of potential center
+            double y = (height - maxB) + maxR * sinTable[theta];        // Y coordinate of potential center
+            int xScaled = (int) x;                                      // Discretize
             int yScaled = (int) y;
             if (xScaled >= width || xScaled < 0 || yScaled >= height || yScaled < 0) {
                 continue;
@@ -296,7 +296,7 @@ public class HoughTransform
         BufferedImage inputImage = ImageIO.read(new File(filePath + "/" + fileName));
         CartesianData inputData = getArrayDataFromImage(inputImage);
         HoughData outputData = houghTransform(inputData, thetaAxisSize, minContrast);
-        //highLightCircles(outputData);
-        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
+        writeOutputImage(filePath + "/" + outputFileName, inputData);
+//        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
     }
 }

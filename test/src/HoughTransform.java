@@ -8,12 +8,24 @@ import javax.imageio.*;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-public class HoughTransform
-{
+public class HoughTransform {
+
+    private static final double LINE_THICKNESS_FACTOR = 0.001;
+    private static final double MIN_RADIUS_FACTOR = 0.05;
+
+    /**
+     * Applies the hough transform to the inputData, which will come from a pre-processed BufferedImage.
+     *
+     * @param inputData         A CartesianData object representing the pre-processed image (after having been grayscaled, applied a sobel filter, then applied a threshold)
+     * @param thetaIncrements   The minimum increments of the angle around the center (polar coordinates)
+     * @param minContrast       The desired contrast required for detecting an edge
+     * @return                  A HoughData object representing the accumulator matrix over the discretized hough space
+     */
     public static HoughData houghTransform(CartesianData inputData, int thetaIncrements, int minContrast) {
         int width = inputData.width;
         int height = inputData.height;
         int maxRadius = Math.min(width, height);
+        int minRadius = (int) Math.round(MIN_RADIUS_FACTOR*inputData.height);
         HoughData outputCircleData = new HoughData(width, height, maxRadius);
 
         // x output ranges from 0 to pi, partition into theaAxisSize increments
@@ -31,7 +43,7 @@ public class HoughTransform
                 if (inputData.contrast(x, y, minContrast)) {
                     // If (x,y) has an adjacent pixel exceeding the contrast, calculate hough curve
                     for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
-                        for (int r = maxRadius - 1; r >= 10; r--) {
+                        for (int r = maxRadius - 1; r >= minRadius; r--) {
                             double a = x - r * cosTable[theta];     // X coordinate of potential center
                             double b = y - r * sinTable[theta];     // Y coordinate of potential center
                             int aScaled = (int) a;                  // Discretize
@@ -44,8 +56,17 @@ public class HoughTransform
                     }
                 }
             }
-            System.out.println(y);
         }
+
+
+        for (int r = 290; r < 360; r++) {
+            for (int x = 500; x < 550; x++) {
+                for (int y = 440; y < 540; y++) {
+                    System.out.println("(" + x + "," + y + "," + r + "): " + outputCircleData.get(x,y,r));
+                }
+            }
+        }
+
         return outputCircleData;
     }
 
@@ -109,7 +130,7 @@ public class HoughTransform
             this.maxB = maxY;
             this.maxR = maxZ;
 
-            System.out.println("Found max of " + max + " at (" + maxX + "," + maxY + "," + maxZ + ")");
+            System.out.println("Found max of " + max + " at (" + maxX + "," + (height - maxY - 1) + "," + maxZ + ")");
             return max;
         }
 
@@ -126,6 +147,9 @@ public class HoughTransform
         }
     }
 
+    /**
+     * Represents a simple 2D grid of pixel values
+     */
     public static class CartesianData {
         public final int[] dataArray;
         public final int width;
@@ -149,17 +173,16 @@ public class HoughTransform
             dataArray[y * width + x] = value;
         }
 
-        public void accumulate(int x, int y, int delta) {
-            set(x, y, get(x, y) + delta);
-        }
-
         /**
          * Determines whether or not any adjacent pixel of (x, y) is outside of minContrast value of (x,y)
          *
-         * @param x
-         * @param y
-         * @param minContrast
-         * @return
+         * @param x             X-coordinate of pixel to measure contrast
+         * @param y             Y-coordinate of pixel to measure contrast
+         * @param minContrast   An int specifiying the min difference in pixel values between neighboring pixels required
+         *                      to mark this pixel as 'contrasted.' Technically, this difference is measured in the pixel
+         *                      values of a BufferedImage of type TYPE_INT_ARGB
+         * @return              true if the difference between the specified pixel at (x,y) and any neighboring pixel is
+         *                      greater than minContrast
          */
         public boolean contrast(int x, int y, int minContrast) {
             int centerValue = get(x, y);
@@ -196,7 +219,7 @@ public class HoughTransform
     }
 
     /**
-     *
+     * Produces SobelFilters on BufferedImages
      */
     public static class SobelEdgeDetector {
 
@@ -232,6 +255,13 @@ public class HoughTransform
         }
     }
 
+    /**
+     * Creates a CartesianData (2D, x,y pixel grid) from the specified BufferdImage
+     *
+     * @param inputImage
+     * @return
+     * @throws IOException
+     */
     public static CartesianData getArrayDataFromImage(BufferedImage inputImage) throws IOException {
         int width = inputImage.getWidth();
         int height = inputImage.getHeight();
@@ -248,25 +278,8 @@ public class HoughTransform
         return arrayData;
     }
 
-    public static void highLightCircles(HoughData circleArrayData) {
-
-    }
-
-    public static void writeOutputImage(String filename, CartesianData arrayData) throws IOException {
-        BufferedImage outputImage = new BufferedImage(arrayData.width, arrayData.height, BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0; y < arrayData.height; y++) {
-            for (int x = 0; x < arrayData.width; x++) {
-                int n = arrayData.get(x, y);
-                outputImage.setRGB(x, arrayData.height - 1 - y, n);
-            }
-        }
-        ImageIO.write(outputImage, "JPG", new File(filename));
-        return;
-    }
-
-
     /**
-     *
+     * Writes the output image to a file based on the results of a hough transform. Circles the detected circle in red
      */
     public static void writeOutputImage(String fileName, BufferedImage originalImage, HoughData circleArrayData, int thetaIncrements) throws IOException {
         circleArrayData.calcMax();
@@ -280,6 +293,7 @@ public class HoughTransform
         int blue = outlineColor.getBlue();
         int col = (red << 16) | (green << 8) | blue;     // how RGB pixels are represented as one int: http://www.javamex.com/tutorials/graphics/bufferedimage_setrgb.shtml
 
+        // Copy file to new file
         ColorModel cm = originalImage.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = originalImage.copyData(null);
@@ -289,6 +303,7 @@ public class HoughTransform
         int height = circleArrayData.height;
         int maxRadius = Math.min(width, height);
 
+        // Precompute sines and cosines
         double[] sinTable = new double[thetaIncrements];
         double[] cosTable = new double[thetaIncrements];
         for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
@@ -297,21 +312,51 @@ public class HoughTransform
             cosTable[theta] = Math.cos(thetaRadians);
         }
 
-        // Color circle
+        // Color circle at edges
+        int lineThickness = (int) Math.round(LINE_THICKNESS_FACTOR*Math.min(circleArrayData.width, circleArrayData.height));
         for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
             double x = maxA + maxR * cosTable[theta];                   // X coordinate of potential center
             double y = (height - maxB) + maxR * sinTable[theta];        // Y coordinate of potential center
             int xScaled = (int) x;                                      // Discretize
             int yScaled = (int) y;
-            if (xScaled >= width || xScaled < 0 || yScaled >= height || yScaled < 0) {
-                continue;
+
+            // Draw thick circle line
+            for (int xPixelOffset = 0; xPixelOffset < lineThickness; xPixelOffset++) {
+                for (int yPixelOffset = 0; yPixelOffset < lineThickness; yPixelOffset++) {
+                    safeSetImagePixel(outputImage, xScaled + xPixelOffset, yScaled + yPixelOffset, col);
+                    safeSetImagePixel(outputImage, xScaled - xPixelOffset, yScaled - yPixelOffset, col);
+                }
             }
-            outputImage.setRGB(xScaled, yScaled,  col);
         }
 
         ImageIO.write(outputImage, "JPG", new File(fileName));
     }
 
+    /**
+     * Safely sets the pixel to color col at (x, y) for the specified image, checking for boundary violations
+     *
+     * @param img
+     * @param x
+     * @param y
+     * @param col
+     */
+    public static void safeSetImagePixel(BufferedImage img, int x, int y, int col) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        if (x >= width || x < 0 || y >= height || y < 0) {
+            //System.out.println("NOT drawing pixel at (" + x + "," + y + ")");
+            return;
+        }
+
+        //System.out.println("Drawing pixel at (" + x + "," + y + ")");
+        img.setRGB(x, y, col);
+    }
+
+    /**
+     * Sets all pixels within the image to greyscale by averaging the RGB content of each
+     * s
+     * @param img
+     */
     public static void makeGray(BufferedImage img) {
         for (int x = 0; x < img.getWidth(); ++x) {
             for (int y = 0; y < img.getHeight(); ++y) {
@@ -327,6 +372,14 @@ public class HoughTransform
         }
     }
 
+    /**
+     * Sets all pixels within the specified image to black or white, depending on the chosen tolerance. Specifically, all
+     * pixels whose gray value is larger than or equal to (lighter than or as light as) the tolerance are set to white.
+     * All the remaining pixels are set to black.
+     *
+     * @param img
+     * @param threshold
+     */
     public static void applyThreshold (BufferedImage img, int threshold) {
         for (int x = 0; x < img.getWidth(); ++x) {
             for (int y = 0; y < img.getHeight(); ++y) {
@@ -350,10 +403,6 @@ public class HoughTransform
 
     public static void main(String[] args) throws IOException {
 
-        // HoughTransform pentagon.png JavaHoughTransform.png 640 480 100
-        int thetaAxisSize; //= Integer.parseInt(args[2]);
-        int inputMinContrast; // = Integer.parseInt(args[4]);
-
         // Get input and output filename
         String filePath = "images";
         String fileName = "coin-on-desksmall.jpeg";
@@ -365,14 +414,13 @@ public class HoughTransform
         String grayScaleFileName = fileNameWithoutExt + ".grayscale." + fileExt;
         String blackWhiteFileName = fileNameWithoutExt + ".blackwhite." + fileExt;
 
-        // Determine axes sizes
-        thetaAxisSize = 360;
-        inputMinContrast = 150;
-        int minContrast = (args.length >= 4) ? 64 : inputMinContrast;
+        // Determine axis sizes and threshold levels
+        final int thetaIncrements = 720;
+        final int inputMinContrast = 150;
+        final int blackWhiteThreshold = 150;
 
         // Read data, compute transform, then write output data
         BufferedImage inputImage = ImageIO.read(new File(filePath + "/" + fileName));
-
 
         // Gray scale
         BufferedImage grayScaleImage = ImageIO.read(new File(filePath + "/" + fileName));
@@ -384,13 +432,12 @@ public class HoughTransform
 
         // Black and white (binary)
         BufferedImage blackWhiteImage = ImageIO.read(new File(filePath + "/" + sobelFileName));
-        applyThreshold(blackWhiteImage, 150);
+        applyThreshold(blackWhiteImage, blackWhiteThreshold);
         ImageIO.write(blackWhiteImage, "JPG", new File(filePath + "/" + blackWhiteFileName));
 
         // Apply Hough Transform
         CartesianData inputData = getArrayDataFromImage(grayScaleImage);
-        HoughData outputData = houghTransform(inputData, thetaAxisSize, minContrast);
-        //writeOutputImage(filePath + "/" + outputFileName, inputData);
-        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
+        HoughData outputData = houghTransform(inputData, thetaIncrements, inputMinContrast);
+        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaIncrements);
     }
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 /**
- * Created by ekutan on 12/14/16.
+ * Created by burak on 12/14/16.
  */
 public class SobelEdgeDetection {
 

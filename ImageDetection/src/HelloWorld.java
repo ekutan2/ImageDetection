@@ -47,7 +47,7 @@ public class HelloWorld {
         System.out.println("Hello World. Count is " + commandLineArgOne + commandLineArgTwo);
         */
 
-        String filePath = "/home/ekutan/IdeaProjects/ImageDetection/images/besiktas.jpg";           // Put your filepath here
+        String filePath = "/home/burak/IdeaProjects/ImageDetection/images/besiktas.jpg";           // Put your filepath here
         File file = new File(filePath);
         BufferedImage image = null;
         try {

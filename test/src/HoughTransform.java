@@ -373,23 +373,24 @@ public class HoughTransform
         // Read data, compute transform, then write output data
         BufferedImage inputImage = ImageIO.read(new File(filePath + "/" + fileName));
 
-        // Pass image through sobel filter, then apply threshold
-        SobelEdgeDetector.getSobelImage(inputImage, filePath + "/" + sobelFileName);
 
         // Gray scale
-        BufferedImage grayScaleImage = ImageIO.read(new File(filePath + "/" + sobelFileName));
+        BufferedImage grayScaleImage = ImageIO.read(new File(filePath + "/" + fileName));
         makeGray(grayScaleImage);
         ImageIO.write(grayScaleImage, "JPG", new File(filePath + "/" + grayScaleFileName));
 
+        // Pass image through sobel filter
+        SobelEdgeDetector.getSobelImage(grayScaleImage, filePath + "/" + sobelFileName);
+
         // Black and white (binary)
-        BufferedImage blackWhiteImage = ImageIO.read(new File(filePath + "/" + fileName));
-        applyThreshold(blackWhiteImage, 190);
+        BufferedImage blackWhiteImage = ImageIO.read(new File(filePath + "/" + sobelFileName));
+        applyThreshold(blackWhiteImage, 150);
         ImageIO.write(blackWhiteImage, "JPG", new File(filePath + "/" + blackWhiteFileName));
 
         // Apply Hough Transform
         CartesianData inputData = getArrayDataFromImage(grayScaleImage);
-        //HoughData outputData = houghTransform(inputData, thetaAxisSize, minContrast);
+        HoughData outputData = houghTransform(inputData, thetaAxisSize, minContrast);
         //writeOutputImage(filePath + "/" + outputFileName, inputData);
-        //writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
+        writeOutputImage(filePath + "/" + outputFileName, inputImage, outputData, thetaAxisSize);
     }
 }

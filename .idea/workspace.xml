@@ -4,13 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/helpers/src/math/convolution/Convolution.java" line="60" mnemonic="8" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3936811b-ee93-4a66-903b-7f3f4601d45b" name="Default" comment="">
+    <list default="true" id="3936811b-ee93-4a66-903b-7f3f4601d45b" name="Default" comment="Updated with better comments">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ImageDetection/src/HelloWorld.java" afterPath="$PROJECT_DIR$/ImageDetection/src/HelloWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/src/math/convolution/Convolution.java" afterPath="$PROJECT_DIR$/helpers/src/math/convolution/Convolution.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/src/HoughTransform.java" afterPath="$PROJECT_DIR$/test/src/HoughTransform.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/src/SobelEdgeDetection.java" afterPath="$PROJECT_DIR$/test/src/SobelEdgeDetection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/src/TestSobel.java" afterPath="$PROJECT_DIR$/test/src/TestSobel.java" />
     </list>
     <ignored path="ImageDetection.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,20 +40,20 @@
       <file leaf-file-name="HoughTransform.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state relative-caret-position="194">
+              <caret line="306" column="71" selection-start-line="306" selection-start-column="71" selection-end-line="306" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5347#5348#0" expanded="true" />
-                <element signature="e#5382#5383#0" expanded="true" />
-                <element signature="e#5414#5415#0" expanded="true" />
-                <element signature="e#5449#5450#0" expanded="true" />
-                <element signature="e#5481#5482#0" expanded="true" />
-                <element signature="e#5516#5517#0" expanded="true" />
-                <element signature="e#5788#5789#0" expanded="true" />
-                <element signature="e#5856#5857#0" expanded="true" />
-                <element signature="e#6084#6085#0" expanded="true" />
-                <element signature="e#6139#6140#0" expanded="true" />
+                <element signature="e#5057#5058#0" expanded="true" />
+                <element signature="e#5092#5093#0" expanded="true" />
+                <element signature="e#5124#5125#0" expanded="true" />
+                <element signature="e#5159#5160#0" expanded="true" />
+                <element signature="e#5191#5192#0" expanded="true" />
+                <element signature="e#5226#5227#0" expanded="true" />
+                <element signature="e#5498#5499#0" expanded="true" />
+                <element signature="e#5566#5567#0" expanded="true" />
+                <element signature="e#5794#5795#0" expanded="true" />
+                <element signature="e#5849#5850#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -747,7 +743,14 @@
       <option name="project" value="LOCAL" />
       <updated>1481783701761</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Updated with better comments">
+      <created>1481788529496</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1481788529496</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -834,7 +837,8 @@
     <MESSAGE value="Adding coin-on-desksmall.jpeg" />
     <MESSAGE value="Added thresholding (not automated in any way)" />
     <MESSAGE value="Update HoughTransform.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update HoughTransform.java" />
+    <MESSAGE value="Updated with better comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated with better comments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1203,20 +1207,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/src/HoughTransform.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state relative-caret-position="194">
+          <caret line="306" column="71" selection-start-line="306" selection-start-column="71" selection-end-line="306" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5347#5348#0" expanded="true" />
-            <element signature="e#5382#5383#0" expanded="true" />
-            <element signature="e#5414#5415#0" expanded="true" />
-            <element signature="e#5449#5450#0" expanded="true" />
-            <element signature="e#5481#5482#0" expanded="true" />
-            <element signature="e#5516#5517#0" expanded="true" />
-            <element signature="e#5788#5789#0" expanded="true" />
-            <element signature="e#5856#5857#0" expanded="true" />
-            <element signature="e#6084#6085#0" expanded="true" />
-            <element signature="e#6139#6140#0" expanded="true" />
+            <element signature="e#5057#5058#0" expanded="true" />
+            <element signature="e#5092#5093#0" expanded="true" />
+            <element signature="e#5124#5125#0" expanded="true" />
+            <element signature="e#5159#5160#0" expanded="true" />
+            <element signature="e#5191#5192#0" expanded="true" />
+            <element signature="e#5226#5227#0" expanded="true" />
+            <element signature="e#5498#5499#0" expanded="true" />
+            <element signature="e#5566#5567#0" expanded="true" />
+            <element signature="e#5794#5795#0" expanded="true" />
+            <element signature="e#5849#5850#0" expanded="true" />
           </folding>
         </state>
       </provider>

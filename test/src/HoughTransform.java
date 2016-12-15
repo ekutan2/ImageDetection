@@ -10,8 +10,8 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class HoughTransform {
 
-    private static final double LINE_THICKNESS_FACTOR = 0.001;
-    private static final double MIN_RADIUS_FACTOR = 0.05;
+    private static final double LINE_THICKNESS_FACTOR = 0.01;
+    private static final double MIN_RADIUS_FACTOR = 0.10;
 
     /**
      * Applies the hough transform to the inputData, which will come from a pre-processed BufferedImage.
@@ -54,15 +54,6 @@ public class HoughTransform {
                             outputCircleData.accumulate(aScaled, bScaled, r, 1);    // Vote
                         }
                     }
-                }
-            }
-        }
-
-
-        for (int r = 290; r < 360; r++) {
-            for (int x = 500; x < 550; x++) {
-                for (int y = 440; y < 540; y++) {
-                    System.out.println("(" + x + "," + y + "," + r + "): " + outputCircleData.get(x,y,r));
                 }
             }
         }
@@ -313,7 +304,7 @@ public class HoughTransform {
         }
 
         // Color circle at edges
-        int lineThickness = (int) Math.round(LINE_THICKNESS_FACTOR*Math.min(circleArrayData.width, circleArrayData.height));
+        int lineThickness = (int) Math.round(LINE_THICKNESS_FACTOR*maxR);
         for (int theta = thetaIncrements - 1; theta >= 0; theta--) {
             double x = maxA + maxR * cosTable[theta];                   // X coordinate of potential center
             double y = (height - maxB) + maxR * sinTable[theta];        // Y coordinate of potential center
